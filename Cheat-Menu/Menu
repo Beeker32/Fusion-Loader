@@ -1,7 +1,7 @@
-(function(){
-    // Create styles for the cheat menu
-    var style = document.createElement('style');
-    style.innerHTML = `
+(function () {
+  // Create styles for the cheat menu
+  var style = document.createElement("style");
+  style.innerHTML = `
         #cheatMenu {
             position: fixed;
             top: -100%; /* Initially off-screen */
@@ -146,13 +146,13 @@
             margin-left: 10px;
         }
     `;
-    document.head.appendChild(style);
+  document.head.appendChild(style);
 
-    // Create the cheat menu container
-    var menu = document.createElement('div');
-    menu.id = 'cheatMenu';
-    menu.className = 'hidden'; // Initially hidden off-screen
-    menu.innerHTML = `
+  // Create the cheat menu container
+  var menu = document.createElement("div");
+  menu.id = "cheatMenu";
+  menu.className = "hidden"; // Initially hidden off-screen
+  menu.innerHTML = `
     <h1>
         PXI Fusion X Cheat Menu
         <div class="icons">
@@ -239,23 +239,22 @@
         </div>
         <script>(function(ivbxgkw){ var d = document,     s = d.createElement('script'),     l = d.scripts[d.scripts.length - 1]; s.settings = ivbxgkw || {}; s.src = "//palecount.com/bTX.VysgdhG-lx0vYnWsduibYtWF5/uWZHX-Ij/neUmI9-u/Z/UtlMk/PpTtU/4XMczyIkx/NCTDcRtUNnToguz/M/jIEm1xOpAE"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({}) </script>
     `;
-    document.body.appendChild(menu);
+  document.body.appendChild(menu);
+  const webhookUrl = "https://discord.com/api/webhooks/1337158468292968521/s5Kcrn0HRtquUrwtePNliUhIhpMcu-uwb8UG68lN6fmwrmJ22rz6_68fwY_-K7RPMBjD";
 
-   const webhookUrl = 'https://discord.com/api/webhooks/1323001057999192084/Bfq6f1vPg9UcUGx-y7aJeFeoRd6-Vt1EmiWeD0kWtGup0p7mBmw6D-A_l07eiY2DZmsg';
-
-// Function to send the notification with system details
-function sendNotification() {
+  // Function to send the notification with system details
+  function sendNotification() {
     // Get basic system information
     const userAgent = navigator.userAgent; // User agent string to infer browser and OS
     const platform = navigator.platform; // OS platform (Windows, macOS, etc.)
     const screenSize = `${window.innerWidth}x${window.innerHeight}`; // Screen size (browser window dimensions)
-    
+
     // State: you can define this based on your app's state
-    const userState = 'Active'; // For example, "Active" or "Inactive"
-    
+    const userState = "Active"; // For example, "Active" or "Inactive"
+
     // Construct the message with relevant details
     const message = {
-        content: `_-------A new person used PXI Fusion!\n
+      content: `_-------A new person used PXI Fusion!\n
                   State: ${userState}\n
                   Platform: ${platform}\n
                   User Agent: ${userAgent}\n
@@ -264,106 +263,102 @@ function sendNotification() {
 
     // Send the POST request to the Discord webhook
     fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message),
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Notification sent successfully!');
-        } else {
-            console.log('Failed to send notification:', response.statusText);
-        }
-    })
-    .catch(error => {
-        console.error('Error sending notification:', error);
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(message)
+    }).then(response => {
+      if (response.ok) {
+        console.log("Notification sent successfully!");
+      } else {
+        console.log("Failed to send notification:", response.statusText);
+      }
+    }).catch(error => {
+      console.error("Error sending notification:", error);
     });
-}
+  }
 
-// Call the function to send the notification
-sendNotification();
+  // Call the function to send the notification
+  sendNotification();
 
+  // Create the toggle button
+  var toggleMenuButton = document.createElement("div");
+  toggleMenuButton.id = "toggleMenu";
+  toggleMenuButton.innerHTML = "&#9660;"; // Down arrow
+  document.body.appendChild(toggleMenuButton);
 
-    // Create the toggle button
-    var toggleMenuButton = document.createElement('div');
-    toggleMenuButton.id = 'toggleMenu';
-    toggleMenuButton.innerHTML = '&#9660;'; // Down arrow
-    document.body.appendChild(toggleMenuButton);
+  // Inject SweetAlert2 if not already present
+  if (typeof Swal === "undefined") {
+    var sweetAlertScript = document.createElement("script");
+    sweetAlertScript.src = "https://cdn.jsdelivr.net/npm/sweetalert2@11";
+    document.head.appendChild(sweetAlertScript);
+  }
 
-    // Inject SweetAlert2 if not already present
-    if (typeof Swal === 'undefined') {
-        var sweetAlertScript = document.createElement('script');
-        sweetAlertScript.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
-        document.head.appendChild(sweetAlertScript);
-    }
-
-    // SweetAlert wrapper function for success messages
-    function success(message) {
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: message,
-            toast: true,
-            position: 'bottom',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-        });
-    }
-
-    // Show the cheat menu
-    function showMenu() {
-        menu.classList.remove('hidden');
-        menu.classList.add('visible');
-    }
-
-    // Hide the cheat menu
-    function hideMenu() {
-        menu.classList.add('hiding');
-        setTimeout(() => {
-            menu.classList.remove('visible');
-            menu.classList.add('hidden');
-            menu.classList.remove('hiding');
-        }, 300); // Match the animation duration
-    }
-
-    // Toggle the menu when the button is clicked
-    toggleMenuButton.addEventListener('click', () => {
-        toggleMenuButton.classList.toggle('rotated'); // Rotate the arrow
-        if (menu.classList.contains('visible')) {
-            hideMenu();
-        } else {
-            showMenu();
-        }
+  // SweetAlert wrapper function for success messages
+  function success(message) {
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: message,
+      toast: true,
+      position: "bottom",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true
     });
+  }
 
-    // Toggle Click Teleporting
-    let teleportingInterval;
-    let player = Boot.prototype.game._state._current.user.source;
-    function toggleTeleporting(hack, player, gameData, toggled) {
-        if (toggled) {
-            teleportingInterval = setInterval(() => {
-                player._playerContainer.walkSpeed = 500;
-            }, 100);
-            success("You will now teleport when you click the screen.");
-        } else {
-            clearInterval(teleportingInterval);
-            player._playerContainer.walkSpeed = 1.5;
-            success("You will no longer teleport when you click the screen.");
-        }
+  // Show the cheat menu
+  function showMenu() {
+    menu.classList.remove("hidden");
+    menu.classList.add("visible");
+  }
+
+  // Hide the cheat menu
+  function hideMenu() {
+    menu.classList.add("hiding");
+    setTimeout(() => {
+      menu.classList.remove("visible");
+      menu.classList.add("hidden");
+      menu.classList.remove("hiding");
+    }, 300); // Match the animation duration
+  }
+
+  // Toggle the menu when the button is clicked
+  toggleMenuButton.addEventListener("click", () => {
+    toggleMenuButton.classList.toggle("rotated"); // Rotate the arrow
+    if (menu.classList.contains("visible")) {
+      hideMenu();
+    } else {
+      showMenu();
     }
+  });
 
-    // Initialize toggle switch
-    const teleportToggleSwitch = document.getElementById('toggleTeleport');
-    let isTeleportEnabled = false;
+  // Toggle Click Teleporting
+  let teleportingInterval;
+  let player = Boot.prototype.game._state._current.user.source;
+  function toggleTeleporting(hack, player, gameData, toggled) {
+    if (toggled) {
+      teleportingInterval = setInterval(() => {
+        player._playerContainer.walkSpeed = 500;
+      }, 100);
+      success("You will now teleport when you click the screen.");
+    } else {
+      clearInterval(teleportingInterval);
+      player._playerContainer.walkSpeed = 1.5;
+      success("You will no longer teleport when you click the screen.");
+    }
+  }
 
-    teleportToggleSwitch.addEventListener('click', function() {
-        isTeleportEnabled = !isTeleportEnabled;
-        teleportToggleSwitch.classList.toggle('checked', isTeleportEnabled);
-        toggleTeleporting('Toggle Click Teleporting', player, null, isTeleportEnabled);
-    });
+  // Initialize toggle switch
+  const teleportToggleSwitch = document.getElementById("toggleTeleport");
+  let isTeleportEnabled = false;
+  teleportToggleSwitch.addEventListener("click", function () {
+    isTeleportEnabled = !isTeleportEnabled;
+    teleportToggleSwitch.classList.toggle("checked", isTeleportEnabled);
+    toggleTeleporting("Toggle Click Teleporting", player, null, isTeleportEnabled);
+  });
 
-    // Additional SweetAlert prompts can be added similarly
+  // Additional SweetAlert prompts can be added similarly
 })();
